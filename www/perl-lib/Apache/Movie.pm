@@ -18,7 +18,7 @@ use MovieAppl;
 
 # The Movie library
 # Contains essential methods
-# use LibMovie;
+use LibMovie;
 
 sub handler
 {
@@ -31,7 +31,7 @@ sub handler
 
   $r -> content_type( 'text/html; charset=UTF-8' );
 
-  run_movie( );
+  MovieAppl::run_movie( );
 
   return;
 }
