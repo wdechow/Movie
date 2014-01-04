@@ -24,9 +24,6 @@ cp ../config_files/httpd.conf /etc/apache2/
 echo "replacing mod_perl.conf ..."
 cp ../config_files/mod_perl.conf /etc/apache2/conf.d/
 
-echo "installing LibMovie ..."
-
-
 echo "restarting apache ..."
 rcapache2 restart
 
