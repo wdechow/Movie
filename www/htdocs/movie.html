@@ -1,0 +1,30 @@
+<html>
+<head>
+</head>
+<body>
+
+This html file just loads the content from of the movie page.
+
+The actual content files are located within the movie directory.
+
+<script type="text/javascript" src="movie/jquery/jquery-2.0.3.js">
+  var parsePath = "/movie";
+
+  console.log( "da" );
+
+  $.post( parsePath, { } );
+
+  $( function( ) {
+    $.post( parsePath, { method: 'login' }, function( data ) {
+
+    } ).success( function( ) {
+      console.log( "success" );
+    } );
+
+  console.log( "nach success" );
+
+  } );
+</script>
+
+</body>
+</html>
