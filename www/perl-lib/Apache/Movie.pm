@@ -3,10 +3,22 @@ package Apache::Movie;
 use strict;
 use warnings;
 
+BEGIN
+{
+  push( @INC, "/srv/www/perl-lib/movie/" );
+}
+
+
 use Apache2::RequestRec( );
 use Apache2::RequestUtil( );
 
-# use Movie;
+# The Movie application script
+# Handles all Requests
+use MovieAppl;
+
+# The Movie library
+# Contains essential methods
+# use LibMovie;
 
 sub handler
 {
@@ -19,7 +31,7 @@ sub handler
 
   $r -> content_type( 'text/html; charset=UTF-8' );
 
-  # run_movie( );
+  run_movie( );
 
   return;
 }
