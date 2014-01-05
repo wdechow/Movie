@@ -34,6 +34,7 @@ then
   fi
 fi
 
+
 echo "Dropping MovieDB_1_0 ..."
 mysql -u movie --password=$password -e "drop database if exists MovieDB_1_0;"
 
@@ -43,7 +44,7 @@ mysql -u movie --password=$password < /home/wolfgang/Projekte/Movie/database/cre
 echo "Inserting data ..."
 for file in *.sql.gz
 do
-  gunzip < dump_TBL_MOVIE.sql.gz | mysql -u movie --password=$password --database=MovieDB_1_0
+  gunzip < $file | mysql -u movie --password=$password --database=MovieDB_1_0
 done
 
 

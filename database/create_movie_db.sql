@@ -11,6 +11,7 @@ create table if not exists TBL_MOVIE (
   MOV_SUBTITLE_ORIGINAL varchar(100),
   MOV_FSK tinyint,
   MOV_RUNTIME_MINUTE smallint,
+  MOV_RELEASE_DATE date,
   MOV_PATH varchar(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -18,14 +18,14 @@ then
   for table in "$@"
   do
     echo "dumping specific table: $table"
-    mysqldump -u movie --password=P4l.xA#3W?s_ --no-create-db --no-create-info --compact --complete-insert --quick MovieDB_1_0 $table | gzip > $dir_name/dump_$table.sql.gz
+    mysqldump -u movie --password=P4l.xA#3W?s_ --no-create-db --no-create-info --compact --complete-insert --quick --disable-keys MovieDB_1_0 $table | gzip > $dir_name/dump_$table.sql.gz
   done
 else
   echo "dumping all tables:"
   for table in "${all_tables[@]}"
   do
     echo "  $table"
-    mysqldump -u movie --password=P4l.xA#3W?s_ --no-create-db --no-create-info --compact --complete-insert --quick MovieDB_1_0 $table | gzip > $dir_name/dump_$table.sql.gz
+    mysqldump -u movie --password=P4l.xA#3W?s_ --no-create-db --no-create-info --compact --complete-insert --quick --disable-keys MovieDB_1_0 $table | gzip > $dir_name/dump_$table.sql.gz
   done
 fi
 
