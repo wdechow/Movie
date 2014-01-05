@@ -1,0 +1,196 @@
+body
+{
+  /*
+  background-image: url( '../images/transformers_01.jpg' );
+  background-image: url( '../images/avatar_01.jpg' );
+  background-image: url( '../images/hulk_01.jpg' );
+  background-image: url( '../images/300_01.jpg' );
+  background-image: url( '../images/friday13th_01.jpg' );
+  background-image: url( '../images/manofsteel_01.jpg' );
+  */
+
+  background-image: url( '../images/avatar_01.jpg' );
+  background-size: 100%;
+}
+
+
+a:link, a:visited, a:active
+{
+  color: #FFFFFF;
+}
+
+a:hover
+{
+  color: #F0C030;
+}
+
+#site
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 1500px;
+  min-height: 800px;
+}
+
+#header
+{
+  color: #FFFFFF;
+  min-height: 60px;
+}
+
+#content
+{
+  color: #FFFFFF;
+  opacity: 0.9;
+}
+
+#footer
+{
+  color: #FFFFFF;
+  min-height: 40px;
+  vertical-align: text-bottom;
+}
+
+
+
+/**
+ * Navigation and Search bar in header.html
+ */
+.navigation-container
+{
+  list-style-type: none;
+  list-style-position: outside;
+  list-style-image: none;
+  display: inline-table;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.navigation
+{
+  width: 120px;
+  height: 40px;
+  background-color: #1F1F1F;
+  opacity: 0.9;
+  text-align: center;
+  float: left;
+}
+
+.navigation-link
+{
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px;
+}
+
+#search-container
+{
+  float: right;
+  width: 300px;
+  height: 40px;
+  display: inline-flex;
+  background-color: #1F1F1F;
+  opacity: 0.9;
+}
+
+#search-input
+{
+  width: 250px;
+  height: 20px;
+  margin: 5px;
+}
+
+#search-image
+{
+  padding: 5px;
+  height: 30px;
+  width: 30px;
+}
+
+
+
+/**
+ * Table for movie data in content.html
+ */
+#table-container
+{
+  width: 100%;
+  background-color: #1F1F1F;
+}
+
+#table-data
+{
+  width: 100%;
+}
+
+.data-row
+{
+  width: 100%;
+  height: 24px;
+}
+
+.filter-input
+{
+  height: 12px;
+  width: 100%;
+}
+
+/* nth-child has to be bevore hover, else even rows would not be highlighted */
+.data-row:nth-child(even)
+{
+  background-color: #191919;
+}
+
+.data-row:hover
+{
+  background-color: #737373;
+}
+
+/*
+  Overriding hover background color for row 0 and 1 to (visually) disable highlighting
+  for the columntitel and filter row
+*/
+#data-row-00:hover
+{
+  background-color: #1F1F1F;
+}
+
+#data-row-01:hover
+{
+  background-color: #191919;
+}
+
+.data-column-00
+{
+  width: 40%;
+}
+
+.data-column-01
+{
+  width: 40%;
+}
+
+.data-column-02
+{
+  width: 10%;
+}
+
+.data-column-03
+{
+  width: 10%;
+}
+
+.table-spacer
+{
+  width: 100%;
+  height: 24px;
+  background-color: transparent;
+  opacity: 0;
+}
+
+#table-paging
+{
+  background-color: #1F1F1F;
+  text-align: center;
+}

@@ -1,0 +1,412 @@
+<!--
+  This file contains the table with the movie data
+-->
+<div id="table-container">
+  <table id="table-data">
+
+    <!-- First row contains the column names -->
+    <tr id="data-row-00" class="data-row">
+      <td class="data-column-00">
+        Titel
+      </td>
+      <td class="data-column-01">
+        Zweittitel
+      </td>
+      <td class="data-column-02">
+        Laufzeit
+      </td>
+      <td class="data-column-03">
+        Release Datum
+      </td>
+    </tr>
+
+    <!-- Second row contains the filter -->
+    <tr id="data-row-01" class="data-row">
+      <td class="data-column-00">
+        <input id="filter-title" class="filter-input" type="text">
+      </td>
+      <td class="data-column-01">
+        <input id="filter-subtitle" class="filter-input" type="text">
+      </td>
+      <td class="data-column-02">
+        <input id="filter-runtime" class="filter-input" type="text">
+      </td>
+      <td class="data-column-03">
+        <input id="filter-release-date" class="filter-input" type="text">
+      </td>
+    </tr>
+
+<!-- Some Testrows
+
+    <tr id="data-row-02" class="data-row">
+      <td class="data-column-00">
+        Scarface
+      </td>
+      <td class="data-column-01">
+
+      </td>
+      <td class="data-column-02">
+        163
+      </td>
+      <td class="data-column-03">
+        09.02.1983
+      </td>
+    </tr>
+
+    <tr id="data-row-03" class="data-row">
+      <td class="data-column-00">
+        Point Break
+      </td>
+      <td class="data-column-01">
+        Gefährliche Brandung
+      </td>
+      <td class="data-column-02">
+        117
+      </td>
+      <td class="data-column-03">
+        12.07.1991
+      </td>
+    </tr>
+
+    <tr id="data-row-04" class="data-row">
+      <td class="data-column-00">
+        Die Wutprobe
+      </td>
+      <td class="data-column-01">
+        Spürt die Liebe
+      </td>
+      <td class="data-column-02">
+        101
+      </td>
+      <td class="data-column-03">
+        08.05.2003
+      </td>
+    </tr>
+
+    <tr id="data-row-05" class="data-row">
+      <td class="data-column-00">
+        Ong-Bak
+      </td>
+      <td class="data-column-01">
+        Muay Thai Warrior
+      </td>
+      <td class="data-column-02">
+        100
+      </td>
+      <td class="data-column-03">
+        11.02.2005
+      </td>
+    </tr>
+
+    <tr id="data-row-06" class="data-row">
+      <td class="data-column-00">
+        The Kid
+      </td>
+      <td class="data-column-01">
+        Image ist alles.
+      </td>
+      <td class="data-column-02">
+        100
+      </td>
+      <td class="data-column-03">
+        07.07.2000
+      </td>
+    </tr>
+
+    <tr id="data-row-07" class="data-row">
+      <td class="data-column-00">
+        Terminator 2
+      </td>
+      <td class="data-column-01">
+        Tag der Abrechnung
+      </td>
+      <td class="data-column-02">
+        147
+      </td>
+      <td class="data-column-03">
+        01.07.1991
+      </td>
+    </tr>
+
+    <tr id="data-row-08" class="data-row">
+      <td class="data-column-00">
+        Terminator 3
+      </td>
+      <td class="data-column-01">
+        Rebellion der Maschinen
+      </td>
+      <td class="data-column-02">
+        105
+      </td>
+      <td class="data-column-03">
+        30.06.2003
+      </td>
+    </tr>
+
+    <tr id="data-row-09" class="data-row">
+      <td class="data-column-00">
+        Sieben
+      </td>
+      <td class="data-column-01">
+
+      </td>
+      <td class="data-column-02">
+        122
+      </td>
+      <td class="data-column-03">
+        23.11.1995
+      </td>
+    </tr>
+
+    <tr id="data-row-10" class="data-row">
+      <td class="data-column-00">
+        The Expendables
+      </td>
+      <td class="data-column-01">
+
+      </td>
+      <td class="data-column-02">
+        100
+      </td>
+      <td class="data-column-03">
+        03.08.2010
+      </td>
+    </tr>
+
+    <tr id="data-row-11" class="data-row">
+      <td class="data-column-00">
+        The 51st state
+      </td>
+      <td class="data-column-01">
+
+      </td>
+      <td class="data-column-02">
+        90
+      </td>
+      <td class="data-column-03">
+        18.10.2002
+      </td>
+    </tr>
+
+    <tr id="data-row-12" class="data-row">
+      <td class="data-column-00">
+        The big hit
+      </td>
+      <td class="data-column-01">
+
+      </td>
+      <td class="data-column-02">
+        88
+      </td>
+      <td class="data-column-03">
+        24.04.1998
+      </td>
+    </tr>
+
+    <tr id="data-row-13" class="data-row">
+      <td class="data-column-00">
+        The book of Eli
+      </td>
+      <td class="data-column-01">
+        Die Zukunft der Welt liegt in seinen Händen
+      </td>
+      <td class="data-column-02">
+        113
+      </td>
+      <td class="data-column-03">
+        15.01.2010
+      </td>
+    </tr>
+
+
+
+    <tr id="data-row-14" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-15" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-16" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-17" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-18" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-19" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-20" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-21" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-22" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-23" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-24" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+
+    <tr id="data-row-25" class="data-row">
+      <td class="data-column-00">
+        Test
+      </td>
+      <td class="data-column-01">
+        Test
+      </td>
+      <td class="data-column-02">
+        Test
+      </td>
+      <td class="data-column-03">
+        Test
+      </td>
+    </tr>
+-->
+  </table>
+
+</div>
+
+<div class="table-spacer">
+</div>
+
+<div id="table-paging">
+  Seite 1, 2, 3 ... 9, 10, 11
+</div>

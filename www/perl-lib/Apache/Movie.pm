@@ -22,16 +22,28 @@ use LibMovie;
 
 sub handler
 {
-  warn "=============================================================\n";
-  warn "                   Movie: Handling Call\n";
-  warn "=============================================================\n";
+  LibMovie::mk_log( "============================================================" );
+  LibMovie::mk_log( "                    Movie: Handling Call                    " );
+  LibMovie::mk_log( "============================================================" );
+
 
   my $r = shift;
   my $c = $r -> connection;
 
   $r -> content_type( 'text/html; charset=UTF-8' );
 
-  MovieAppl::run_movie( );
+  my $db_handler;
+  my %params;
+
+  unless( $db_handler = LibMovie::db_connect( ) )
+  {
+    LibMovie::mk_error( "Could not connect to database!" );
+    return;
+  }
+
+  LibMovie::get_request_parameter( \%params );
+
+  MovieAppl::handle_request( $db_handler, \%params );
 
   return;
 }
