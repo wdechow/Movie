@@ -1,0 +1,27 @@
+body
+{
+  background-color: #0F30B0;
+}
+
+#movie-site
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 1500px;
+  min-height: 800px;
+}
+
+#movie-header
+{
+  background-color: #FFFFFF;
+}
+
+#movie-content
+{
+  background-color: #FF0000;
+}
+
+#movie-footer
+{
+  background-color: #00FF00;
+}
