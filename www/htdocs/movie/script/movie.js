@@ -13,8 +13,8 @@ $( document ).ready( function( ) {
 function load_site( )
 {
   $( "#header" ).load( "movie/components/header.html", function( ) {
-    // When the header is fully loaded, i can set the onclick handlers for the links
-    load_menu( );
+    // When the header is fully loaded, i can set all handlers
+    load_header_handlers( );
   } );
 
   $( "#content" ).load( "movie/components/main.html" );
@@ -30,13 +30,19 @@ function load_site( )
 
 
 /**
- * This function sets the onclick handler for all menu entries
+ * This function sets all handler for the header
  */
-function load_menu( )
+function load_header_handlers( )
 {
+  /* Menu handler */
   var link_preferences    = document.getElementById( "menu-preferences" );
   var link_detail_search  = document.getElementById( "menu-detail-search" );
   var link_add            = document.getElementById( "menu-add" );
+
+  /* Search handler */
+  var link_search         = document.getElementById( "search-image" );
+  var input_search        = document.getElementById( "search-input" );
+
 
   link_preferences.onclick = function( ) {
     handler_menu_preferences( );
@@ -48,6 +54,17 @@ function load_menu( )
 
   link_add.onclick = function( ) {
     handler_menu_add( );
+  }
+
+  link_search.onclick = function( ) {
+    handler_search( );
+  }
+
+  input_search.onkeypress = function( e ) {
+    /* If return was pressed in input field, trigger handler */
+    if( e.keyCode == 13 ) {
+      handler_search( );
+    }
   }
 }
 
@@ -76,4 +93,13 @@ function handler_menu_detail_search( )
 function handler_menu_add( )
 {
   console.log( "handler_menu_add" );
+}
+
+
+/**
+ * This function handles the onclick event of the search icon
+ */
+function handler_search( )
+{
+  console.log( "handler_search" );
 }

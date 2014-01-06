@@ -16,18 +16,12 @@ body
 
 a:link, a:visited, a:active
 {
-  text-decoration: none;
   color: #FFFFFF;
-  display: inline-block;
-  padding: 10px;
 }
 
 a:hover
 {
-  text-decoration: none;
   color: #F0C030;
-  display: inline-block;
-  padding: 10px;
 }
 
 #site
@@ -58,14 +52,14 @@ a:hover
   vertical-align: text-bottom;
 }
 
-.nav-container
+.navigation-container
 {
   list-style-type: none;
   list-style-position: outside;
   list-style-image: none;
   display: inline-table;
   position: relative;
-  float: left;
+  /* float: left; */
   padding: 0;
   margin: 0;
 }
@@ -78,4 +72,38 @@ a:hover
   opacity: 0.9;
   text-align: center;
   float: left;
+}
+
+.navigation-link
+{
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px;
+}
+
+#search-container
+{
+  float: right;
+  width: 300px;
+  height: 40px;
+  display: inline-flex;
+  background-color: #1F1F1F;
+  opacity: 0.9;
+}
+
+#search-input
+{
+  width: 250px;
+  height: 20px;
+  margin: 5px;
+}
+
+#search-image
+{
+  padding: 5px;
+}
+
+#header-container
+{
+  /* float: left; */
 }
