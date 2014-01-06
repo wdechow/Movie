@@ -30,7 +30,7 @@ function load_site( )
 
 
 /**
- * This function sets the onclock handler for all menu entries
+ * This function sets the onclick handler for all menu entries
  */
 function load_menu( )
 {
