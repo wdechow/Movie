@@ -1,6 +1,6 @@
 body
 {
-  background-color: #0F30B0;
+  background-image: url( '../images/transformers_01.jpg' );
 }
 
 #movie-site
@@ -13,15 +13,20 @@ body
 
 #movie-header
 {
-  background-color: #FFFFFF;
+  color: #FFFFFF;
+  min-height: 40px;
 }
 
 #movie-content
 {
-  background-color: #FF0000;
+  color: #FFFFFF;
+  background-color: #1F1F1F;
+  opacity: 0.9;
 }
 
 #movie-footer
 {
-  background-color: #00FF00;
+  color: #FFFFFF;
+  min-height: 40px;
+  vertical-align: text-bottom;
 }

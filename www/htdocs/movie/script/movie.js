@@ -1,5 +1,5 @@
 
-/* This path unsures that the mod_perl handler for project movie is used */
+/* This path ensures that the mod_perl handler for project movie is used */
 var path = "/promov";
 
 $( document ).ready( function( ) {
