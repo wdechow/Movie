@@ -25,6 +25,10 @@ sub handle_request
   {
     print get_table_data( );
   }
+  else
+  {
+    LibMovie::mk_error( "Unknown method given: " . $$main::p{ 'method' } );
+  }
 }
 
 
