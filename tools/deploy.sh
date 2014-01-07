@@ -27,10 +27,4 @@ cp ../config_files/mod_perl.conf /etc/apache2/conf.d/
 echo "restarting apache ..."
 rcapache2 restart
 
-echo "creating database ..."
-mysql -u movie --password=P4l.xA#3W?s_ < ../database/create_movie_db.sql
-
-# TODO letztes Backup darf nur restored werden, falls die DB davor nicht existiert hat
-echo "restoring latest backup ..."
-
 popd

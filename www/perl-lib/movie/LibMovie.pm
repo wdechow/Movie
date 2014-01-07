@@ -3,11 +3,72 @@ package LibMovie;
 use strict;
 use warnings;
 
+use CGI;
 use DBI;
 use DBD::mysql;
 
 
 
+
+
+# ==============
+# gets all parameter from the request and saves them
+# in the parameter hash reference
+#
+# @param reference to parameter hash
+#
+sub get_request_parameter
+{
+  my $ref_params  = shift;
+
+  my $cgi = CGI -> new;
+  my $params = $cgi -> Vars;
+
+  foreach my $key( keys( %$params ) )
+  {
+    mk_log( "Getting param: $key = $$params{ $key }" );
+    $$ref_params{ $key } = $$params{ $key };
+  }
+}
+
+
+# ==============
+# handles proper log output
+#
+# @param log message to handle
+#
+sub mk_log
+{
+  my $msg = shift;
+
+  warn "$msg\n";
+}
+
+
+# ==============
+# handles proper error output
+#
+# @param error message to handle
+#
+sub mk_error
+{
+  my $msg = shift;
+
+  warn "$msg\n";
+}
+
+
+# ==============
+# handles proper info output
+#
+# @param info message to handle
+#
+sub mk_info
+{
+  my $msg = shift;
+
+  warn "$msg\n";
+}
 
 
 # ==============

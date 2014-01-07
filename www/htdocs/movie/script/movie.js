@@ -2,9 +2,13 @@
 /* This path ensures that the mod_perl handler for project movie is used */
 var path = "/promov";
 
+/* This variable sets the amount of Movies listed in table per page */
+var number_of_movies = 20;
+
 $( document ).ready( function( ) {
   load_site( );
 } );
+
 
 
 /**
@@ -20,7 +24,7 @@ function load_site( )
   $( "#content" ).load( "movie/components/content.html", function( ) {
     // When the content structure is fully loaded, i can load the movie data and filter handler
     set_filter_handler( );
-    load_table_content( 1, 40 );
+    load_table_content( 1, number_of_movies );
   } );
 
   $( "#footer" ).load( "movie/components/footer.html" );
@@ -127,6 +131,18 @@ function add_row( entry, id )
   row.id    = "data-row-" + add_leading_zero( id );
   row.classList.add( "data-row" );
 
+
+  /* setting the Movie ID as data attribute for later use, to start the movie */
+  row.setAttribute( 'data-id', entry[ 'id' ] );
+
+
+  /* adding onclick event handler */
+  row.onclick = function( ) {
+    handler_data_row( this.id );
+  }
+
+
+  /* setting cell class and content */
   var cell_1 = row.insertCell( 0 );
   var cell_2 = row.insertCell( 1 );
   var cell_3 = row.insertCell( 2 );
@@ -276,4 +292,13 @@ function handler_filter_runtime( )
 function handler_filter_release_date( )
 {
   console.log( "handler_filter_release_date" );
+}
+
+
+/**
+ *
+ */
+function handler_data_row( id )
+{
+  console.log( "table row with id: " + id + " was clicked." );
 }
