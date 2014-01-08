@@ -1,5 +1,4 @@
 number_of_tables=11
-# password="P4l.xA#3W?s_"
 path=$(pwd)
 
 if [ $# -lt 1 ]
