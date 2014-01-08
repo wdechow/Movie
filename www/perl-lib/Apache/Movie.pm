@@ -45,6 +45,8 @@ sub handler
 
   MovieAppl::handle_request( $db_handler, \%params );
 
+  LibMovie::db_close( $db_handler );
+
   return;
 }
 
