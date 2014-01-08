@@ -33,6 +33,20 @@ sub get_request_parameter
 
 
 # ==============
+# creates a formatted timestamp for log messages
+#
+# @return formatted timestamp
+#
+sub get_logging_timestamp
+{
+  my ( $second, $minute, $hour, $day, $month, $year ) = localtime;
+  my $timestamp = sprintf( "%02d-%02d-%04d %02d:%02d:%02d", $day, $month + 1, $year + 1900, $hour, $minute, $second );
+
+  return $timestamp;
+}
+
+
+# ==============
 # handles proper log output
 #
 # @param log message to handle
@@ -40,8 +54,9 @@ sub get_request_parameter
 sub mk_log
 {
   my $msg = shift;
+  my $timestamp = get_logging_timestamp( );
 
-  warn "$msg\n";
+  warn "[ Movie LOG ] [ $timestamp ]: $msg\n";
 }
 
 
@@ -53,8 +68,9 @@ sub mk_log
 sub mk_error
 {
   my $msg = shift;
+  my $timestamp = get_logging_timestamp( );
 
-  warn "$msg\n";
+  warn "[ Movie ERROR ] [ $timestamp ]: $msg\n";
 }
 
 
@@ -66,8 +82,9 @@ sub mk_error
 sub mk_info
 {
   my $msg = shift;
+  my $timestamp = get_logging_timestamp( );
 
-  warn "$msg\n";
+  warn "[ Movie INFO ] [ $timestamp ]: $msg\n";
 }
 
 
