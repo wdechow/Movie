@@ -6,7 +6,7 @@ then
   exit 1
 fi
 
-pushd /home/wolfgang/Projekte/Movie/tools/
+pushd /home/wolfgang/Projekte/Movie/tools/ >/dev/null
 
 echo "replacing movie files in htdocs ..."
 rm -r /srv/www/htdocs/movie
@@ -24,7 +24,21 @@ cp ../config_files/httpd.conf /etc/apache2/
 echo "replacing mod_perl.conf ..."
 cp ../config_files/mod_perl.conf /etc/apache2/conf.d/
 
+echo "replacing .my.cnf ..."
+cp ../config_files/.my.cnf ~/.my.cnf
+
 echo "restarting apache ..."
 rcapache2 restart
 
-popd
+
+# If a parameter is given, i have to check if its a valid backup directory
+if [ ! -z $1 ]
+then
+  if [ -d $1 ]
+  then
+    path=$(dirname "$0")
+    $path/restore_db.sh $1
+  fi
+fi
+
+popd >/dev/null

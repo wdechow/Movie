@@ -1,5 +1,6 @@
 number_of_tables=11
-password="P4l.xA#3W?s_"
+# password="P4l.xA#3W?s_"
+path=$(pwd)
 
 if [ $# -lt 1 ]
 then
@@ -15,7 +16,7 @@ then
   exit
 fi
 
-pushd $1
+pushd $1 >/dev/null
 
 number_of_files=$(ls *.sql.gz | wc -l)
 
@@ -36,16 +37,23 @@ fi
 
 
 echo "Dropping MovieDB_1_0 ..."
-mysql -u movie --password=$password -e "drop database if exists MovieDB_1_0;"
+mysql -e "drop database if exists MovieDB_1_0;"
+
+
+pushd $path >/dev/null
 
 echo "Creating MovieDB_1_0 ..."
-mysql -u movie --password=$password < /home/wolfgang/Projekte/Movie/database/create_movie_db.sql
+mysql < ../database/create_movie_db.sql
+
+popd >/dev/null
 
 echo "Inserting data ..."
 for file in *.sql.gz
 do
-  gunzip < $file | mysql -u movie --password=$password --database=MovieDB_1_0
+  # here the database name is important because it can't be
+  # specified in the .my.cnf due to the use when dropping and creating it
+  gunzip < $file | mysql -D MovieDB_1_0
 done
 
 
-popd
+popd >/dev/null
