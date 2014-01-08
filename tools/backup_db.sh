@@ -39,14 +39,14 @@ then
   for table in "$@"
   do
     echo "dumping specific table: $table"
-    mysqldump --no-create-db --no-create-info --compact --complete-insert --quick --disable-keys --databases MovieDB_1_0 --tables $table | gzip > $dir_name/dump_$table.sql.gz
+    mysqldump --no-create-db --no-create-info --compact --complete-insert --quick --disable-keys MovieDB_1_0 $table | gzip > $dir_name/dump_$table.sql.gz
   done
 else
   echo "dumping all tables:"
   for table in "${all_tables[@]}"
   do
     echo "  $table"
-    mysqldump --no-create-db --no-create-info --compact --complete-insert --quick --disable-keys --databases MovieDB_1_0 --tables $table | gzip > $dir_name/dump_$table.sql.gz
+    mysqldump --no-create-db --no-create-info --compact --complete-insert --quick --disable-keys MovieDB_1_0 $table | gzip > $dir_name/dump_$table.sql.gz
   done
 fi
 
