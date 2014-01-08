@@ -16,6 +16,7 @@ then
   exit
 fi
 
+
 pushd $1 >/dev/null
 
 number_of_files=$(ls *.sql.gz | wc -l)
