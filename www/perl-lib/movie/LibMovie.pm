@@ -106,13 +106,13 @@ sub execute_sql
 
   unless( $sqlh = $db_handler -> prepare( $sql ) )
   {
-    warn "Can't prepare statement: $sql\n";
+    mk_error( "Can't prepare statement: $sql" );
     return;
   }
 
   unless( $sqlh -> execute( @_ ) )
   {
-    warn "Can't execute statement: $sql, " . join( ", ", @_ ) . "\n";
+    mk_error( "Can't execute statement: $sql, " . join( ", ", @_ ) );
     return;
   }
 
@@ -156,7 +156,7 @@ sub db_close
 
   unless( $db_handler = shift )
   {
-    warn "Can't close DB connection without database handler!\n";
+    mk_error( "Can't close DB connection without database handler!" );
     return;
   }
 
