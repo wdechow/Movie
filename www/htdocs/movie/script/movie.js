@@ -35,10 +35,10 @@ function load_site( )
 
 
 /**
-  * This function loads the content for the site
-  *
-  * @param file Content file to load into the content div
-  */
+ * This function loads the content for the site
+ *
+ * @param file Content file to load into the content div
+ */
 function load_content( file )
 {
   $( "#content" ).load( file, function( ) {
@@ -132,7 +132,7 @@ function fill_table( data )
 {
   var movies = jQuery.parseJSON( data );
 
-  // all entries after the first on are tabe rows
+  // all entries after the first one are tabe rows
   for( var i = 1; i < movies.length; i++ ) {
     // +1 because row 0 are the column titels and row 1 filter
     // first data row has to be 2 and i starts at 1 ... so +1 = 2
