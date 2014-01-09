@@ -6,7 +6,17 @@ then
   exit 1
 fi
 
-pushd /home/wolfgang/Projekte/Movie/tools/ >/dev/null
+# current directory of caller
+current_dir=$(pwd)
+
+# directory given in the call
+call_path=$(dirname "$0")
+
+# absolute path to the tools directory containing this script
+tools_path=$current_dir/$call_path
+
+
+pushd $tools_path >/dev/null
 
 echo "replacing movie files in htdocs ..."
 rm -r /srv/www/htdocs/movie
@@ -34,10 +44,21 @@ rcapache2 restart
 # If a parameter is given, i have to check if its a valid backup directory
 if [ ! -z $1 ]
 then
+  # if an absolute backup directory path is given i can call restore_db.sh
   if [ -d $1 ]
   then
-    path=$(dirname "$0")
-    $path/restore_db.sh $1
+    ./restore_db.sh $1
+  else
+    # If the backup directory can not be found with absolute path
+    # i will try the relative path to
+    if [ -d $current_dir/$1 ]
+    then
+      ./restore_db.sh $current_dir/$1
+    else
+      echo "given backup directory does not exist ... ignoring restore!"
+      echo "tried: $1"
+      echo "tried: $current_dir/$1"
+    fi
   fi
 fi
 
