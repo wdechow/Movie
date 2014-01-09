@@ -16,17 +16,44 @@ $( document ).ready( function( ) {
  */
 function load_site( )
 {
-  $( "#header" ).load( "movie/components/header.html", function( ) {
+  load_header( );
+  load_content( "movie/components/content.html" );
+  load_footer( );
+}
+
+
+/**
+ * This function loads the header for the site
+ */
+ function load_header( )
+ {
+   $( "#header" ).load( "movie/components/header.html", function( ) {
     // When the header is fully loaded, i can set all handlers
     set_header_handlers( );
   } );
+ }
 
-  $( "#content" ).load( "movie/components/content.html", function( ) {
+
+/**
+  * This function loads the content for the site
+  *
+  * @param file Content file to load into the content div
+  */
+function load_content( file )
+{
+  $( "#content" ).load( file, function( ) {
     // When the content structure is fully loaded, i can load the movie data and filter handler
     set_filter_handler( );
     load_table_content( 1, number_of_movies );
   } );
+}
 
+
+/**
+ * This function loads the footer for the site
+ */
+function load_footer( )
+{
   $( "#footer" ).load( "movie/components/footer.html" );
 }
 
