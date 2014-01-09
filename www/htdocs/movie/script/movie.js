@@ -1,9 +1,13 @@
 
-/* This path ensures that the mod_perl handler for project movie is used */
-var path = "/promov";
+/* This constant ensures that the mod_perl handler for project movie is used */
+var PATH = "/promov";
 
-/* This variable sets the amount of Movies listed in table per page */
-var number_of_movies = 20;
+/* This constant sets the amount of Movies listed in table per page */
+var NUMBER_OF_MOVIES = 20;
+
+/* This constant represents the key ID of the return key */
+var KEY_ID_RETURN = 13;
+
 
 $( document ).ready( function( ) {
   load_site( );
@@ -29,7 +33,7 @@ function load_site( )
   var content_params  = new Array( );
 
   content_params[ 0 ] = 1;
-  content_params[ 1 ] = number_of_movies;
+  content_params[ 1 ] = NUMBER_OF_MOVIES;
 
   var function_data_1 = new Object( );
   var function_data_2 = new Object( );
@@ -105,28 +109,28 @@ function set_filter_handler( )
 
   input_filter_title.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
-    if( key.keyCode == 13 ) {
+    if( key.keyCode == KEY_ID_RETURN ) {
       handler_filter_title( );
     }
   }
 
   input_filter_subtitle.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
-    if( key.keyCode == 13 ) {
+    if( key.keyCode == KEY_ID_RETURN ) {
       handler_filter_subtitle( );
     }
   }
 
   input_filter_runtime.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
-    if( key.keyCode == 13 ) {
+    if( key.keyCode == KEY_ID_RETURN ) {
       handler_filter_runtime( );
     }
   }
 
   input_filter_release_date.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
-    if( key.keyCode == 13 ) {
+    if( key.keyCode == KEY_ID_RETURN ) {
       handler_filter_release_date( );
     }
   }
@@ -146,7 +150,7 @@ function load_table_content( from, count )
   params[ 'from' ]    = from;
   params[ 'count' ]   = count;
 
-  $.post( path, params, function( data ) {
+  $.post( PATH, params, function( data ) {
     if( ( data !== undefined ) && ( data != "" ) ) {
       fill_table( data );
     } else {
@@ -278,7 +282,7 @@ function set_header_handlers( )
 
   input_search.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
-    if( key.keyCode == 13 ) {
+    if( key.keyCode == KEY_ID_RETURN ) {
       handler_search( );
     }
   }
