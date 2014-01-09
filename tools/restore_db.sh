@@ -1,5 +1,4 @@
 number_of_tables=11
-path=$(pwd)
 
 if [ $# -lt 1 ]
 then
@@ -14,6 +13,20 @@ then
   echo "Aborting."
   exit
 fi
+
+
+# current directory of caller
+current_dir=$(pwd)
+
+# directory given in the call
+call_path=$(dirname "$0")
+
+# absolute path to the tools directory containing this script
+tools_path=$current_dir/$call_path
+
+
+pushd $tools_path >/dev/null
+
 
 pushd $1 >/dev/null
 
@@ -39,7 +52,7 @@ echo "Dropping MovieDB_1_0 ..."
 mysql -e "drop database if exists MovieDB_1_0;"
 
 
-pushd $path >/dev/null
+pushd $tools_path >/dev/null
 
 echo "Creating MovieDB_1_0 ..."
 mysql < ../database/create_movie_db.sql
