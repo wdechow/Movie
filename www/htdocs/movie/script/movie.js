@@ -16,17 +16,79 @@ $( document ).ready( function( ) {
  */
 function load_site( )
 {
-  $( "#header" ).load( "movie/components/header.html", function( ) {
+  load_header( );
+  load_footer( );
+
+
+  /*
+    load_content needs some parameter to call the methods for loading table data
+    and setting callback handler
+   */
+  var load_array      = new Array( );
+  var handler_params  = new Array( );
+  var content_params  = new Array( );
+
+  content_params[ 0 ] = 1;
+  content_params[ 1 ] = number_of_movies;
+
+  var function_data_1 = new Object( );
+  var function_data_2 = new Object( );
+
+  function_data_1[ 'name' ]   = set_filter_handler;
+  function_data_1[ 'params' ] = handler_params;
+
+  function_data_2[ 'name' ]   = load_table_content;
+  function_data_2[ 'params' ] = content_params;
+
+  load_array[ 0 ] = function_data_1;
+  load_array[ 1 ] = function_data_2;
+
+  load_content( "movie/components/content.html", load_array );
+}
+
+
+/**
+ * This function loads the header for the site
+ */
+ function load_header( )
+ {
+   $( "#header" ).load( "movie/components/header.html", function( ) {
     // When the header is fully loaded, i can set all handlers
     set_header_handlers( );
   } );
+ }
 
-  $( "#content" ).load( "movie/components/content.html", function( ) {
-    // When the content structure is fully loaded, i can load the movie data and filter handler
-    set_filter_handler( );
-    load_table_content( 1, number_of_movies );
+
+/**
+ * This function loads the content for the site
+ *
+ * @param file Content file to load into the content div
+ * @param callbacks An optional Array of function objects that are called on succes, iE setting handlers
+ */
+function load_content( file, callbacks )
+{
+  $( "#content" ).load( file, function( ) {
+
+    if( callbacks !== undefined ) {
+
+      for( var i = 0; i < callbacks.length; i++ ) {
+
+        var function_data   = callbacks[ i ];
+        var function_name   = function_data[ 'name' ];
+        var function_params = function_data[ 'params' ];
+
+        function_name.apply( this, function_params );
+      }
+    }
   } );
+}
 
+
+/**
+ * This function loads the footer for the site
+ */
+function load_footer( )
+{
   $( "#footer" ).load( "movie/components/footer.html" );
 }
 
@@ -105,7 +167,7 @@ function fill_table( data )
 {
   var movies = jQuery.parseJSON( data );
 
-  // all entries after the first on are tabe rows
+  // all entries after the first one are tabe rows
   for( var i = 1; i < movies.length; i++ ) {
     // +1 because row 0 are the column titels and row 1 filter
     // first data row has to be 2 and i starts at 1 ... so +1 = 2
