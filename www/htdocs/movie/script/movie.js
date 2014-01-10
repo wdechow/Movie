@@ -12,7 +12,7 @@ KEY_ID_RETURN = 13;
 NUMBER_OF_COLUMNS = 4;
 
 /* Specifies the default value of an filter input field. This value will be deleted on click, all others won't */
-FILTER_INPUT_DEFAULT_VAL = "suche nach ...";
+FILTER_INPUT_DEFAULT_VAL = "filter nach ...";
 
 
 $( document ).ready( function( ) {
