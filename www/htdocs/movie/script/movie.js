@@ -1,12 +1,18 @@
 
 /* This constant ensures that the mod_perl handler for project movie is used */
-var PATH = "/promov";
+PATH = "/promov";
 
 /* This constant sets the amount of Movies listed in table per page */
-var NUMBER_OF_MOVIES = 20;
+NUMBER_OF_MOVIES = 20;
 
 /* This constant represents the key ID of the return key */
-var KEY_ID_RETURN = 13;
+KEY_ID_RETURN = 13;
+
+/* Specifies the number of columns contained in the movie table */
+NUMBER_OF_COLUMNS = 4;
+
+/* Specifies the default value of an filter input field. This value will be deleted on click, all others won't */
+FILTER_INPUT_DEFAULT_VAL = "filter nach ...";
 
 
 $( document ).ready( function( ) {
@@ -133,4 +139,45 @@ function handler_menu_add( )
 function handler_search( )
 {
   console.log( "handler_search" );
+}
+
+
+/**
+ * This function inserts an object before the object of the given id
+ *
+ * @param object The object to insert
+ * @param id The ID of the object, the given object should be placed directly before of
+ */
+function add_before( object, id )
+{
+  var target = document.getElementById( id );
+  target.parentNode.insertBefore( object, target );
+}
+
+
+/**
+ * This function inserts an object after the object of the given id
+ *
+ * @param object The object to insert
+ * @param id The ID of the object, the given object should be placed directly after of
+ */
+function add_after( object, id )
+{
+  var target = document.getElementById( id );
+  target.parentNode.insertBefore( object, target.nextSibling );
+}
+
+
+/**
+ * This function delets the object with the given id
+ *
+ * @param id ID of the object to delete
+ */
+function delete_object( id )
+{
+  var element = document.getElementById( id );
+
+  if( element ) {
+    element.parentNode.removeChild( element );
+  }
 }

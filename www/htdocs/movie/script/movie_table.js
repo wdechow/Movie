@@ -1,4 +1,8 @@
 
+/* This variable stores the id of the last row that was expanded */
+var last_expanded_id = "";
+
+
 $( document ).ready( function( ) {
   set_filter_handler( );
   load_table_content( 1, NUMBER_OF_MOVIES );
@@ -16,32 +20,56 @@ function set_filter_handler( )
   var input_filter_runtime      = document.getElementById( "filter-runtime" );
   var input_filter_release_date = document.getElementById( "filter-release-date" );
 
+
+  /* filter title */
   input_filter_title.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
     if( key.keyCode == KEY_ID_RETURN ) {
-      handler_filter_title( );
+      search_filter_title( );
     }
   }
 
+  input_filter_title.onclick = function( ) {
+    clear_filter_input( "#filter-title" );
+  }
+
+
+  /* filter subtitle */
   input_filter_subtitle.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
     if( key.keyCode == KEY_ID_RETURN ) {
-      handler_filter_subtitle( );
+      search_filter_subtitle( );
     }
   }
 
+  input_filter_subtitle.onclick = function( ) {
+    clear_filter_input( "#filter-subtitle" );
+  }
+
+
+  /* filter runtime */
   input_filter_runtime.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
     if( key.keyCode == KEY_ID_RETURN ) {
-      handler_filter_runtime( );
+      search_filter_runtime( );
     }
   }
 
+  input_filter_runtime.onclick = function( ) {
+    clear_filter_input( "#filter-runtime" );
+  }
+
+
+  /* filter release date */
   input_filter_release_date.onkeypress = function( key ) {
     /* If return was pressed in input field, trigger handler */
     if( key.keyCode == KEY_ID_RETURN ) {
-      handler_filter_release_date( );
+      search_filter_release_date( );
     }
+  }
+
+  input_filter_release_date.onclick = function( ) {
+    clear_filter_input( "#filter-release-date" );
   }
 }
 
@@ -82,9 +110,8 @@ function fill_table( data )
 
   // all entries after the first one are tabe rows
   for( var i = 1; i < movies.length; i++ ) {
-    // +1 because row 0 are the column titels and row 1 filter
-    // first data row has to be 2 and i starts at 1 ... so +1 = 2
-    add_row( movies[ i ], i + 1 );
+
+    add_row( movies[ i ], i );
   }
 
   // first entry specifies the paging
@@ -149,45 +176,138 @@ function set_paging( paging )
 /**
  * This function handles the keypress event of the title filter
  */
-function handler_filter_title( )
+function search_filter_title( )
 {
-  console.log( "handler_filter_title" );
+  console.log( "search_filter_title" );
 }
 
 
 /**
  * This function handles the keypress event of the subtitle filter
  */
-function handler_filter_subtitle( )
+function search_filter_subtitle( )
 {
-  console.log( "handler_filter_subtitle" );
+  console.log( "search_filter_subtitle" );
 }
 
 
 /**
  * This function handles the keypress event of the runtime filter
  */
-function handler_filter_runtime( )
+function search_filter_runtime( )
 {
-  console.log( "handler_filter_runtime" );
+  console.log( "search_filter_runtime" );
 }
 
 
 /**
  * This function handles the keypress event of the release date filter
  */
-function handler_filter_release_date( )
+function search_filter_release_date( )
 {
-  console.log( "handler_filter_release_date" );
+  console.log( "search_filter_release_date" );
 }
 
 
 /**
+ * This method clears the input for the filter of the given id
  *
+ * @param id ID of the input to clear, preceeded by #
+ */
+function clear_filter_input( id )
+{
+  if( $( id ).val( ) === FILTER_INPUT_DEFAULT_VAL ) {
+    $( id ).val( "" );
+  }
+}
+
+
+/**
+ * This function handles the click event on a table row
  */
 function handler_data_row( id )
 {
-  console.log( "table row with id: " + id + " was clicked." );
+  collaps_expanded_rows( );
+  expand_row( id );
+}
+
+
+/**
+ * This function shows the expand row, containing startoptions and detail information
+ *
+ * @param id ID of the clicked row
+ */
+function expand_row( id )
+{
+  var row_to_expand = document.getElementById( id );
+
+  /* If the same row is clicked a second time, i do not expand any row */
+  if( id === last_expanded_id ) {
+
+    if( ! row_is_expanded( ) ) {
+      /*
+        if there is no expanded row, collaps_axpanded_rows has been called
+        and i can reset last_expanded_id
+      */
+      last_expanded_id = "";
+    }
+
+    return;
+  }
+
+  last_expanded_id = id;
+
+
+  /* This row contains the call, containing the start options and detail divs */
+  var expand_row = document.createElement( 'tr' );
+  expand_row.id = "expand-row";
+
+
+  /* This cell contains the start options and detail divs */
+  var cell_1 = expand_row.insertCell( 0 );
+  cell_1.id = "expand-cell";
+  cell_1.colSpan = NUMBER_OF_COLUMNS;
+
+
+  /* This is the spacer table row */
+  var spacer_row = document.createElement( 'tr' );
+  spacer_row.id = "spacer-row";
+  spacer_row.classList.add( "table-spacer" );
+  spacer_row.colSpan = NUMBER_OF_COLUMNS;
+
+
+  /* Inserting the expanded row and the spacer in the table */
+  add_after( expand_row, id );
+  add_after( spacer_row, expand_row.id );
+
+
+  /* Loading the start options and detail content */
+  $( "#expand-cell" ).load( "movie/components/start_options.html", function( ) {
+    console.log( "content loaded" );
+  } );
+}
+
+
+/**
+ * Collapses all expanded rows
+ */
+function collaps_expanded_rows( )
+{
+  delete_object( "expand-row" );
+  delete_object( "spacer-row" );
+}
+
+
+/**
+ * This function checks if there are any expanded rows
+ *
+ * @return true if there is at least one expanded row, false else
+ */
+function row_is_expanded( )
+{
+  var element = document.getElementById( "expand-row" );
+
+  return element ? true : false;
 }
 
 
