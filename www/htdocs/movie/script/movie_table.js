@@ -1,6 +1,8 @@
 
 /* This variable stores the id of the last row that was expanded */
-var last_expanded_id = "";
+var LAST_EXPANDED_ID = "";
+
+var CURRENT_PAGE = 1;
 
 
 $( document ).ready( function( ) {
@@ -89,7 +91,6 @@ function load_table_content( from, count )
 
   $.post( PATH, params, function( data ) {
     if( ( data !== undefined ) && ( data != "" ) ) {
-      console.log( data );
       fill_table( data );
     } else {
       console.log( "No data received" );
@@ -166,11 +167,74 @@ function add_row( entry, id )
 /**
  * This function sets the paging
  *
- * @param paging Object containing all paging information
+ * @param paging Object containing all paging information (paging[ 'pages' ])
  */
 function set_paging( paging )
 {
-  console.log( "set_paging" );
+  var number_of_pages = paging[ 'pages' ];
+
+  $( "#paging-info" ).text( get_paging_text( number_of_pages ) );
+
+  if( CURRENT_PAGE === number_of_pages ) {
+    enable_privious( );
+    disable_next( );
+  } else if ( CURRENT_PAGE === 1 ) {
+    enable_next( );
+    disable_privious( );
+  }
+}
+
+
+/**
+ * Creates the text for the paging-info div
+ *
+ * @param number_of_pages The number of pages
+ *
+ * @return the paging info text
+ */
+function get_paging_text( number_of_pages )
+{
+  if( number_of_pages === 1 ) {
+    return "Seite 1";
+  } else {
+    return "Seite " + CURRENT_PAGE + " von " + number_of_pages;
+  }
+}
+
+
+/**
+ * Disables the next and last button
+ */
+function disable_next( )
+{
+  console.log( "disable_next" );
+}
+
+
+/**
+ * Disables the privious and first button
+ */
+function disable_privious( )
+{
+  console.log( "disable_privious" );
+}
+
+
+/**
+ * Enables the next and last button
+ */
+function enable_next( )
+{
+  console.log( "enable_next" );
+}
+
+
+/**
+ * Enables the privious and first button
+ */
+function enable_privious( )
+{
+  console.log( "enable_privious" );
 }
 
 
@@ -243,20 +307,20 @@ function expand_row( id )
   var row_to_expand = document.getElementById( id );
 
   /* If the same row is clicked a second time, i do not expand any row */
-  if( id === last_expanded_id ) {
+  if( id === LAST_EXPANDED_ID ) {
 
     if( ! row_is_expanded( ) ) {
       /*
         if there is no expanded row, collaps_axpanded_rows has been called
-        and i can reset last_expanded_id
+        and i can reset LAST_EXPANDED_ID
       */
-      last_expanded_id = "";
+      LAST_EXPANDED_ID = "";
     }
 
     return;
   }
 
-  last_expanded_id = id;
+  LAST_EXPANDED_ID = id;
 
 
   /* This row contains the call, containing the start options and detail divs */
