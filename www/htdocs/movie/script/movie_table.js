@@ -2,12 +2,17 @@
 /* This variable stores the id of the last row that was expanded */
 var LAST_EXPANDED_ID = "";
 
-var CURRENT_PAGE = 1;
+/* Saves the current page number to make paging easier */
+var CURRENT_PAGE    = 1;
+
+/* saves number of pages to make paging easier */
+var NUMBER_OF_PAGES = 1;
 
 
 $( document ).ready( function( ) {
   set_filter_handler( );
   load_table_content( 1, NUMBER_OF_MOVIES );
+  set_paging_handler( );
 } );
 
 
@@ -73,6 +78,48 @@ function set_filter_handler( )
   input_filter_release_date.onclick = function( ) {
     clear_filter_input( "#filter-release-date" );
   }
+}
+
+
+/**
+ * This function sets the handler for next page, last page, previous page and first page button
+ */
+function set_paging_handler( )
+{
+  var first_page    = document.getElementById( "paging-first" );
+  var previous_page = document.getElementById( "paging-previous" );
+  var next_page     = document.getElementById( "paging-next" );
+  var last_page     = document.getElementById( "paging-last" );
+
+  first_page.onclick = function( )  {
+    set_page( 1 );
+  }
+
+  previous_page.onclick = function( )  {
+    set_page( CURRENT_PAGE - 1 );
+  }
+
+  next_page.onclick = function( )  {
+    set_page( CURRENT_PAGE + 1 );
+  }
+
+  last_page.onclick = function( )  {
+    set_page( NUMBER_OF_PAGES );
+  }
+}
+
+
+/**
+ * This function loads the content for the given page number and handles the new paging
+ *
+ * @param page_number Page number to load
+ */
+function set_page( page_number )
+{
+  CURRENT_PAGE = page_number;
+
+  var from = CURRENT_PAGE * NUMBER_OF_MOVIES;
+  load_table_content( from, NUMBER_OF_MOVIES );
 }
 
 
@@ -171,14 +218,21 @@ function add_row( entry, id )
  */
 function set_paging( paging )
 {
-  var number_of_pages = paging[ 'pages' ];
+  NUMBER_OF_PAGES = paging[ 'pages' ];
 
-  $( "#paging-info" ).text( get_paging_text( number_of_pages ) );
+  $( "#paging-info" ).text( get_paging_text( ) );
 
-  if( CURRENT_PAGE === number_of_pages ) {
+
+  if( NUMBER_OF_PAGES === 1 ) {
+    /* If there is only one page i can disable all 4 buttons */
+    disable_next( );
+    disable_privious( );
+  } else if( CURRENT_PAGE === NUMBER_OF_PAGES ) {
+    /* If the current page ist the last page i can disable the next and last buttons */
     enable_privious( );
     disable_next( );
   } else if ( CURRENT_PAGE === 1 ) {
+    /* If the current page ist the first page i can disable the previous and first buttons */
     enable_next( );
     disable_privious( );
   }
@@ -188,16 +242,14 @@ function set_paging( paging )
 /**
  * Creates the text for the paging-info div
  *
- * @param number_of_pages The number of pages
- *
  * @return the paging info text
  */
-function get_paging_text( number_of_pages )
+function get_paging_text( )
 {
-  if( number_of_pages === 1 ) {
+  if( NUMBER_OF_PAGES === 1 ) {
     return "Seite 1";
   } else {
-    return "Seite " + CURRENT_PAGE + " von " + number_of_pages;
+    return "Seite " + CURRENT_PAGE + " von " + NUMBER_OF_PAGES;
   }
 }
 
@@ -207,7 +259,8 @@ function get_paging_text( number_of_pages )
  */
 function disable_next( )
 {
-  console.log( "disable_next" );
+  $( "#paging-last" ).prop( 'disabled', 'true' );
+  $( "#paging-next" ).prop( 'disabled', 'true' );
 }
 
 
@@ -216,7 +269,8 @@ function disable_next( )
  */
 function disable_privious( )
 {
-  console.log( "disable_privious" );
+  $( "#paging-first" ).prop( 'disabled', 'true' );
+  $( "#paging-previous" ).prop( 'disabled', 'true' );
 }
 
 
@@ -225,7 +279,8 @@ function disable_privious( )
  */
 function enable_next( )
 {
-  console.log( "enable_next" );
+  $( "#paging-last" ).prop( 'disabled', 'false' );
+  $( "#paging-next" ).prop( 'disabled', 'false' );
 }
 
 
@@ -234,7 +289,8 @@ function enable_next( )
  */
 function enable_privious( )
 {
-  console.log( "enable_privious" );
+  $( "#paging-first" ).prop( 'disabled', 'false' );
+  $( "#paging-previous" ).prop( 'disabled', 'false' );
 }
 
 
