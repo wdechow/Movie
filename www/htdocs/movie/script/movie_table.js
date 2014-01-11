@@ -89,6 +89,7 @@ function load_table_content( from, count )
 
   $.post( PATH, params, function( data ) {
     if( ( data !== undefined ) && ( data != "" ) ) {
+      console.log( data );
       fill_table( data );
     } else {
       console.log( "No data received" );

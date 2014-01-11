@@ -12,6 +12,7 @@ KEY_ID_RETURN = 13;
 NUMBER_OF_COLUMNS = 4;
 
 /* Specifies the default value of an filter input field. This value will be deleted on click, all others won't */
+/* This variable has to be set to the same value as $main::NUMBER_OF_MOVIES in MovieAppl.pm */
 FILTER_INPUT_DEFAULT_VAL = "filter nach ...";
 
 
