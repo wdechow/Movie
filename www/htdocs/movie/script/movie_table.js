@@ -89,6 +89,7 @@ function load_table_content( from, count )
 
   $.post( PATH, params, function( data ) {
     if( ( data !== undefined ) && ( data != "" ) ) {
+      console.log( data );
       fill_table( data );
     } else {
       console.log( "No data received" );
@@ -157,7 +158,7 @@ function add_row( entry, id )
 
   cell_1.innerHTML = entry[ 'title' ];
   cell_2.innerHTML = entry[ 'subtitle' ];
-  cell_3.innerHTML = entry[ 'runtime' ];
+  cell_3.innerHTML = format_runtime( entry[ 'runtime' ] );
   cell_4.innerHTML = entry[ 'release_date' ];
 }
 
@@ -263,6 +264,12 @@ function expand_row( id )
   expand_row.id = "expand-row";
 
 
+  /* Setting the data-id attribute for the expanded row for further use */
+  /* This way it's much more convinient to retrieve it in the start_options.js */
+  var movie_id = row_to_expand.getAttribute( 'data-id' );
+  expand_row.setAttribute( 'data-id', movie_id );
+
+
   /* This cell contains the start options and detail divs */
   var cell_1 = expand_row.insertCell( 0 );
   cell_1.id = "expand-cell";
@@ -320,4 +327,17 @@ function row_is_expanded( )
 function add_leading_zero( n )
 {
   return ( n < 10 ) ? ( "0" + n ) : n;
+}
+
+
+/**
+ * This function formats the runtime in the desired form
+ *
+ * @param runtime Unformatted runtime
+ *
+ * @return Formatted runtime
+ */
+function format_runtime( runtime )
+{
+  return runtime + " Minuten";
 }
