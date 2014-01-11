@@ -1,12 +1,12 @@
 
 /* This variable stores the id of the last row that was expanded */
-var LAST_EXPANDED_ID = "";
+LAST_EXPANDED_ID = "";
 
 /* Saves the current page number to make paging easier */
-var CURRENT_PAGE    = 1;
+CURRENT_PAGE    = 1;
 
 /* saves number of pages to make paging easier */
-var NUMBER_OF_PAGES = 1;
+NUMBER_OF_PAGES = 1;
 
 
 $( document ).ready( function( ) {
@@ -118,7 +118,7 @@ function set_page( page_number )
 {
   CURRENT_PAGE = page_number;
 
-  var from = CURRENT_PAGE * NUMBER_OF_MOVIES;
+  var from = ( CURRENT_PAGE - 1 ) * NUMBER_OF_MOVIES + 1;
   load_table_content( from, NUMBER_OF_MOVIES );
 }
 
