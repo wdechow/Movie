@@ -1,11 +1,18 @@
 
 /* This variable stores the id of the last row that was expanded */
-var last_expanded_id = "";
+LAST_EXPANDED_ID = "";
+
+/* Saves the current page number to make paging easier */
+CURRENT_PAGE    = 1;
+
+/* saves number of pages to make paging easier */
+NUMBER_OF_PAGES = 1;
 
 
 $( document ).ready( function( ) {
   set_filter_handler( );
   load_table_content( 1, NUMBER_OF_MOVIES );
+  set_paging_handler( );
 } );
 
 
@@ -75,6 +82,48 @@ function set_filter_handler( )
 
 
 /**
+ * This function sets the handler for next page, last page, previous page and first page button
+ */
+function set_paging_handler( )
+{
+  var first_page    = document.getElementById( "paging-first" );
+  var previous_page = document.getElementById( "paging-previous" );
+  var next_page     = document.getElementById( "paging-next" );
+  var last_page     = document.getElementById( "paging-last" );
+
+  first_page.onclick = function( )  {
+    set_page( 1 );
+  }
+
+  previous_page.onclick = function( )  {
+    set_page( CURRENT_PAGE - 1 );
+  }
+
+  next_page.onclick = function( )  {
+    set_page( CURRENT_PAGE + 1 );
+  }
+
+  last_page.onclick = function( )  {
+    set_page( NUMBER_OF_PAGES );
+  }
+}
+
+
+/**
+ * This function loads the content for the given page number and handles the new paging
+ *
+ * @param page_number Page number to load
+ */
+function set_page( page_number )
+{
+  CURRENT_PAGE = page_number;
+
+  var from = ( CURRENT_PAGE - 1 ) * NUMBER_OF_MOVIES + 1;
+  load_table_content( from, NUMBER_OF_MOVIES );
+}
+
+
+/**
  * This function creates the movie data table
  *
  * @param from Index of the first item to select
@@ -89,7 +138,6 @@ function load_table_content( from, count )
 
   $.post( PATH, params, function( data ) {
     if( ( data !== undefined ) && ( data != "" ) ) {
-      console.log( data );
       fill_table( data );
     } else {
       console.log( "No data received" );
@@ -166,11 +214,83 @@ function add_row( entry, id )
 /**
  * This function sets the paging
  *
- * @param paging Object containing all paging information
+ * @param paging Object containing all paging information (paging[ 'pages' ])
  */
 function set_paging( paging )
 {
-  console.log( "set_paging" );
+  NUMBER_OF_PAGES = paging[ 'pages' ];
+
+  $( "#paging-info" ).text( get_paging_text( ) );
+
+
+  if( NUMBER_OF_PAGES === 1 ) {
+    /* If there is only one page i can disable all 4 buttons */
+    disable_next( );
+    disable_privious( );
+  } else if( CURRENT_PAGE === NUMBER_OF_PAGES ) {
+    /* If the current page ist the last page i can disable the next and last buttons */
+    enable_privious( );
+    disable_next( );
+  } else if ( CURRENT_PAGE === 1 ) {
+    /* If the current page ist the first page i can disable the previous and first buttons */
+    enable_next( );
+    disable_privious( );
+  }
+}
+
+
+/**
+ * Creates the text for the paging-info div
+ *
+ * @return the paging info text
+ */
+function get_paging_text( )
+{
+  if( NUMBER_OF_PAGES === 1 ) {
+    return "Seite 1";
+  } else {
+    return "Seite " + CURRENT_PAGE + " von " + NUMBER_OF_PAGES;
+  }
+}
+
+
+/**
+ * Disables the next and last button
+ */
+function disable_next( )
+{
+  $( "#paging-last" ).prop( 'disabled', 'true' );
+  $( "#paging-next" ).prop( 'disabled', 'true' );
+}
+
+
+/**
+ * Disables the privious and first button
+ */
+function disable_privious( )
+{
+  $( "#paging-first" ).prop( 'disabled', 'true' );
+  $( "#paging-previous" ).prop( 'disabled', 'true' );
+}
+
+
+/**
+ * Enables the next and last button
+ */
+function enable_next( )
+{
+  $( "#paging-last" ).prop( 'disabled', 'false' );
+  $( "#paging-next" ).prop( 'disabled', 'false' );
+}
+
+
+/**
+ * Enables the privious and first button
+ */
+function enable_privious( )
+{
+  $( "#paging-first" ).prop( 'disabled', 'false' );
+  $( "#paging-previous" ).prop( 'disabled', 'false' );
 }
 
 
@@ -243,20 +363,20 @@ function expand_row( id )
   var row_to_expand = document.getElementById( id );
 
   /* If the same row is clicked a second time, i do not expand any row */
-  if( id === last_expanded_id ) {
+  if( id === LAST_EXPANDED_ID ) {
 
     if( ! row_is_expanded( ) ) {
       /*
         if there is no expanded row, collaps_axpanded_rows has been called
-        and i can reset last_expanded_id
+        and i can reset LAST_EXPANDED_ID
       */
-      last_expanded_id = "";
+      LAST_EXPANDED_ID = "";
     }
 
     return;
   }
 
-  last_expanded_id = id;
+  LAST_EXPANDED_ID = id;
 
 
   /* This row contains the call, containing the start options and detail divs */

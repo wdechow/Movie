@@ -194,6 +194,7 @@ a:hover
 {
   background-color: #1F1F1F;
   text-align: center;
+  width: 100%;
 }
 
 
@@ -267,4 +268,38 @@ a:hover
   border: 0;
   color: #FFFFFF;
   font-weight: bold;
+}
+
+
+/* Paging styles */
+#paging-info
+{
+  width: 150px;
+  float: left;
+  margin-top: 2px;
+}
+
+#paging-content
+{
+  width: 360px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.paging-button:disabled
+{
+  background-color: #191919;
+  color: #737373;
+}
+
+.paging-button
+{
+  width: 40px;
+  background-color: #737373;
+  border: 0;
+  color: #FFFFFF;
+  font-weight: bold;
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
 }
