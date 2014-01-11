@@ -77,14 +77,19 @@ sub mk_error
 # ==============
 # handles proper info output
 #
+# @param debug Debug flag, only if set to > 0 message will be printed
 # @param info message to handle
 #
-sub mk_info
+sub mk_debug
 {
-  my $msg = shift;
-  my $timestamp = get_logging_timestamp( );
+  my $debug = shift;
+  my $msg   = shift;
 
-  warn "[ Movie INFO ] [ $timestamp ]: $msg\n";
+  if( $debug > 0 )
+  {
+    my $timestamp = get_logging_timestamp( );
+    warn "[ Movie DEBUG ] [ $timestamp ]: $msg\n";
+  }
 }
 
 

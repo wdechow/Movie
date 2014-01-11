@@ -6,6 +6,14 @@ use warnings;
 use LibMovie;
 use JSON;
 
+
+# This flag spacifies if debug messages should be printed
+# 0 = no debug messages will be printet, 0 > debug messages will be printed
+$main::DEBUG = 0;
+
+
+
+
 sub handle_request
 {
   # the global database handler
