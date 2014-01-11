@@ -1,5 +1,5 @@
 
-/* This variable stores the id of the last row that had the attribute expanded set to true */
+/* This variable stores the id of the last row that was expanded */
 var last_expanded_id = "";
 
 
@@ -30,7 +30,7 @@ function set_filter_handler( )
   }
 
   input_filter_title.onclick = function( ) {
-    clear_filter_title( );
+    clear_filter_input( "#filter-title" );
   }
 
 
@@ -43,7 +43,7 @@ function set_filter_handler( )
   }
 
   input_filter_subtitle.onclick = function( ) {
-    clear_filter_subtitle( );
+    clear_filter_input( "#filter-subtitle" );
   }
 
 
@@ -56,7 +56,7 @@ function set_filter_handler( )
   }
 
   input_filter_runtime.onclick = function( ) {
-    clear_filter_runtime( );
+    clear_filter_input( "#filter-runtime" );
   }
 
 
@@ -69,7 +69,7 @@ function set_filter_handler( )
   }
 
   input_filter_release_date.onclick = function( ) {
-    clear_filter_release_date( );
+    clear_filter_input( "#filter-release-date" );
   }
 }
 
@@ -210,50 +210,15 @@ function search_filter_release_date( )
 
 
 /**
- * This method clears the input for the filter title
+ * This method clears the input for the filter of the given id
+ *
+ * @param id ID of the input to clear, preceeded by #
  */
-function clear_filter_title( )
+function clear_filter_input( id )
 {
-  if( $( "#filter-title" ).val( ) === FILTER_INPUT_DEFAULT_VAL ) {
-    $( "#filter-title" ).val( "" );
+  if( $( id ).val( ) === FILTER_INPUT_DEFAULT_VAL ) {
+    $( id ).val( "" );
   }
-  console.log( "clear_filter_title" );
-}
-
-
-/**
- * This method clears the input for the filter subtitle
- */
-function clear_filter_subtitle( )
-{
-  if( $( "#filter-subtitle" ).val( ) === FILTER_INPUT_DEFAULT_VAL ) {
-    $( "#filter-subtitle" ).val( "" );
-  }
-  console.log( "clear_filter_subtitle" );
-}
-
-
-/**
- * This method clears the input for the filter runtime
- */
-function clear_filter_runtime( )
-{
-  if( $( "#filter-runtime" ).val( ) === FILTER_INPUT_DEFAULT_VAL ) {
-    $( "#filter-runtime" ).val( "" );
-  }
-  console.log( "clear_filter_runtime" );
-}
-
-
-/**
- * This method clears the input for the filter release_date
- */
-function clear_filter_release_date( )
-{
-  if( $( "#filter-release-date" ).val( ) === FILTER_INPUT_DEFAULT_VAL ) {
-    $( "#filter-release-date" ).val( "" );
-  }
-  console.log( "clear_filter_release_date" );
 }
 
 
@@ -262,26 +227,31 @@ function clear_filter_release_date( )
  */
 function handler_data_row( id )
 {
-  console.log( "table row with id: " + id + " was clicked." );
+  collaps_expanded_rows( );
   expand_row( id );
 }
 
 
 /**
  * This function shows the expand row, containing startoptions and detail information
- * Before any new rows are expanded, all other expanded rows will be collapsed
  *
  * @param id ID of the clicked row
  */
 function expand_row( id )
 {
-  collaps_expanded_rows( );
-
   var row_to_expand = document.getElementById( id );
 
-  /* If the same row is clicked a second time, i just collaps it and do nothing else */
+  /* If the same row is clicked a second time, i do not expand any row */
   if( id === last_expanded_id ) {
-    last_expanded_id = "";
+
+    if( ! row_is_expanded( ) ) {
+      /*
+        if there is no expanded row, collaps_axpanded_rows has been called
+        and i can reset last_expanded_id
+      */
+      last_expanded_id = "";
+    }
+
     return;
   }
 
@@ -325,6 +295,19 @@ function collaps_expanded_rows( )
 {
   delete_object( "expand-row" );
   delete_object( "spacer-row" );
+}
+
+
+/**
+ * This function checks if there are any expanded rows
+ *
+ * @return true if there is at least one expanded row, false else
+ */
+function row_is_expanded( )
+{
+  var element = document.getElementById( "expand-row" );
+
+  return element ? true : false;
 }
 
 
