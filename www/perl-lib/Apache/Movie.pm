@@ -59,7 +59,6 @@ sub handler
 
   if( $response_status != 1 )
   {
-    LibMovie::mk_log( "Response status: $response_status" );
     $r -> status( $response_status );
   }
 

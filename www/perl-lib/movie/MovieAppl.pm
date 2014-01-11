@@ -49,6 +49,13 @@ sub handle_request
       return 500;
     }
   }
+  elsif( $$main::p{ 'method' } eq "get_movie_detail" )
+  {
+    unless( get_movie_detail( ) )
+    {
+      return 500;
+    }
+  }
   else
   {
     LibMovie::mk_error( "Unknown method given: " . $$main::p{ 'method' } );
@@ -72,7 +79,12 @@ sub get_table_data
     return;
   }
 
-  my $sql = "select MOV_ID, MOV_TITLE, MOV_SUBTITLE, MOV_TITLE_ORIGINAL, MOV_SUBTITLE_ORIGINAL, MOV_FSK, MOV_RUNTIME_MINUTE, MOV_RELEASE_DATE from TBL_MOVIE limit ?, ?;";
+  my $sql = "";
+  $sql .= "select MOV_ID, MOV_TITLE, MOV_SUBTITLE, MOV_TITLE_ORIGINAL, MOV_SUBTITLE_ORIGINAL, MOV_FSK, MOV_RUNTIME_MINUTE, date_format(MOV_RELEASE_DATE, '%d-%m-%Y') ";
+  $sql .= "from TBL_MOVIE ";
+  $sql .= "order by MOV_TITLE asc ";
+  $sql .= "limit ?, ?;";
+
   my $sqlh;
   my @row;
 
@@ -173,6 +185,8 @@ sub get_paging
   my $sqlh;
   my @row;
 
+
+  # selecting the number of movies from the database
   unless( $sqlh = LibMovie::execute_sql( $main::dbh, $sql ) )
   {
     return;
@@ -180,7 +194,90 @@ sub get_paging
 
   if( @row = $sqlh -> fetchrow_array( ) )
   {
+    # The number of pages = number of movies in DB / number of movies displayed on one page
     $$paging_ref{ 'pages' } = ceil( $row[ 0 ] / $main::NUMBER_OF_MOVIES );
+  }
+  else
+  {
+    LibMovie::mk_error( "Could not receive paging information!" );
+    $sqlh -> finish( );
+    return;
+  }
+
+  $sqlh -> finish( );
+
+
+  return 1;
+}
+
+
+# ==============
+# selects the movie detail information from the database
+#
+# $$main::p{ 'id' } Movie ID
+#
+sub get_movie_detail
+{
+  my $cover;
+  my @actors;
+  my @languages;
+  my @subtitles;
+
+  unless( get_cover( \$cover ) )
+  {
+    return;
+  }
+
+  unless( get_actors( \@actors ) )
+  {
+    return;
+  }
+
+  unless( get_languages( \@languages ) )
+  {
+    return;
+  }
+
+  unless( get_subtitles( \@subtitles ) )
+  {
+    return;
+  }
+
+  my %data;
+  $data{ 'cover' }      = $cover;
+  $data{ 'actors' }     = \@actors;
+  $data{ 'languages' }  = \@languages;
+  $data{ 'subtitles' }  = \@subtitles;
+
+  print encode_json( \%data );
+
+  return 1;
+}
+
+
+# ==============
+# selects the cover for the movie
+#
+# @param $cover_ref Reference to the cover scalar
+#
+# $$main::p{ 'id' } Movie ID
+#
+sub get_cover
+{
+  my $cover_ref = shift;
+
+  my $sql = "select MOV_COVER from TBL_MOVIE where MOV_ID = ?;";
+  my $sqlh;
+  my @row;
+
+  unless( $sqlh = LibMovie::execute_sql( $main::dbh, $sql, $$main::p{ 'id' } ) )
+  {
+    return;
+  }
+
+  if( @row = $sqlh -> fetchrow_array( ) )
+  {
+    $$cover_ref = $row[ 0 ];
   }
   else
   {
@@ -190,6 +287,118 @@ sub get_paging
 
   $sqlh -> finish( );
 
+  return 1;
+}
+
+
+# ==============
+# selects the actors for the movie
+#
+# @param actors_ref Reference to the actors array
+#
+# $$main::p{ 'id' } Movie ID
+#
+sub get_actors
+{
+  my $actors_ref = shift;
+
+  my $sql = "select a.ACT_ALIAS from TBL_ACTOR a inner join TBL_MOVIE_ACTOR ma on a.ACT_ID = ma.MOA_ACT_ID where ma.MOA_MOV_ID = ?;";
+  my $sqlh;
+  my @row;
+
+  unless( $sqlh = LibMovie::execute_sql( $main::dbh, $sql, $$main::p{ 'id' } ) )
+  {
+    return;
+  }
+
+  while( @row = $sqlh -> fetchrow_array( ) )
+  {
+    push( @$actors_ref, $row[ 0 ] );
+  }
+
+  $sqlh -> finish( );
+
+  return 1;
+}
+
+
+# ==============
+# selects the languages for the movie
+#
+# @param languages_ref Reference to the language array
+#
+# $$main::p{ 'id' } Movie ID
+#
+sub get_languages
+{
+  my $languages_ref = shift;
+
+  my $sql = "select l.LAN_ID, l.LAN_SHORT, l.LAN_NAME from TBL_LANGUAGE l inner join TBL_MOVIE_LANGUAGE ml on l.LAN_ID = ml.MOL_LAN_ID where ml.MOL_MOV_ID = ?;";
+  my $sqlh;
+  my @row;
+
+  unless( $sqlh = LibMovie::execute_sql( $main::dbh, $sql, $$main::p{ 'id' } ) )
+  {
+    return;
+  }
+
+  while( @row = $sqlh -> fetchrow_array( ) )
+  {
+    my %language;
+    $language{ 'id' }     = $row[ 0 ];
+    $language{ 'value' }  = $row[ 1 ];
+    $language{ 'text' }   = $row[ 2 ];
+
+    push( @$languages_ref, \%language );
+  }
+
+  $sqlh -> finish( );
+
+  return 1;
+}
+
+
+# ==============
+# selects the subtitles for the movie
+#
+# @param languages_ref Reference to the subtitles array
+#
+# $$main::p{ 'id' } Movie ID
+#
+sub get_subtitles
+{
+  my $languages_ref = shift;
+
+  my $sql = "select l.LAN_ID, l.LAN_SHORT, l.LAN_NAME from TBL_LANGUAGE l inner join TBL_MOVIE_SUBTITLE ms on l.LAN_ID = ms.MOS_LAN_ID where ms.MOS_MOV_ID = ?;";
+  my $sqlh;
+  my @row;
+
+  unless( $sqlh = LibMovie::execute_sql( $main::dbh, $sql, $$main::p{ 'id' } ) )
+  {
+    return;
+  }
+
+  # Subtitles are optional so the first entry is a none selected entry
+  my %none_selected;
+  $none_selected{ 'id' }    = 0;
+  $none_selected{ 'value' } = "k";
+  $none_selected{ 'text' }  = "Keine Untertitel";
+
+  push( @$languages_ref, \%none_selected );
+
+
+  # adding all found subtitles
+  while( @row = $sqlh -> fetchrow_array( ) )
+  {
+    my %language;
+    $language{ 'id' }     = $row[ 0 ];
+    $language{ 'value' }  = $row[ 1 ];
+    $language{ 'text' }   = $row[ 2 ];
+
+    push( @$languages_ref, \%language );
+  }
+
+  $sqlh -> finish( );
 
   return 1;
 }
