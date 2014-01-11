@@ -78,7 +78,7 @@ sub mk_error
 # handles proper info output
 #
 # @param debug Debug flag, only if set to > 0 message will be printed
-# @param info message to handle
+# @param debug message to handle
 #
 sub mk_debug
 {
