@@ -303,3 +303,60 @@ a:hover
   margin-left: 5px;
   margin-right: 5px;
 }
+
+/* add movie styles */
+.add-basic-info-row
+{
+  width: 100%;
+  line-height: 24px;
+  display: inline-table;
+  background-color: #1F1F1F;
+}
+
+#add-content-basic-info
+{
+  float: left;
+  width: 50%;
+}
+
+.add-basic-info-column-01
+{
+  float: left;
+  width: 49%;
+  margin-left: 5px;
+}
+
+.add-basic-info-column-02
+{
+  float: left;
+  width: 49%;
+  margin-left: 5px;
+}
+
+.add-basic-info-column-03
+{
+  float: left;
+  width: 32%;
+  margin-left: 5px;
+}
+
+.add-basic-info-column-04
+{
+  float: left;
+  width: 32%;
+  margin-left: 5px;
+}
+
+.add-basic-info-column-05
+{
+  float: left;
+  width: 32%;
+  margin-left: 5px;
+}
+
+.add-basic-info-column-06
+{
+  float: left;
+  width: 100%;
+  margin-left: 5px;
+}

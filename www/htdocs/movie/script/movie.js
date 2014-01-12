@@ -130,7 +130,9 @@ function handler_menu_detail_search( )
  */
 function handler_menu_add( )
 {
-  console.log( "handler_menu_add" );
+  $( "#content" ).load( "movie/components/add_movie.html", function( ) {
+
+  } );
 }
 
 
