@@ -10,7 +10,7 @@ use POSIX;
 
 # This flag spacifies if debug messages should be printed
 # 0 = no debug messages will be printet, 0 > debug messages will be printed
-$main::DEBUG = 0;
+$main::DEBUG = 1;
 
 # Sets the number of movies per page for the paging calculation
 # This variable has to be set to the same value as NUMBER_OF_MOVIES in movie.js
@@ -52,6 +52,13 @@ sub handle_request
   elsif( $$main::p{ 'method' } eq "get_movie_detail" )
   {
     unless( get_movie_detail( ) )
+    {
+      return 500;
+    }
+  }
+  elsif( $$main::p{ 'method' } eq "start_vlc" )
+  {
+    unless( start_vlc( ) )
     {
       return 500;
     }
@@ -401,6 +408,86 @@ sub get_subtitles
   $sqlh -> finish( );
 
   return 1;
+}
+
+
+# ==============
+# starts the VLC-Player start script
+#
+# $$main::p{ 'id' } Movie ID
+# $$main::p{ 'language' } Short name of the language for audio
+# $$main::p{ 'subtitle' } undefined for no subtitles, or short version of subtitle language
+#
+sub start_vlc
+{
+  # Paths from the system command start at /
+
+  my $path;
+  my $language = $$main::p{ 'language' };
+  my $subtitle = $$main::p{ 'subtitle' };
+  my $retval;
+
+  unless( $path = get_movie_path( $$main::p{ 'id' } ) )
+  {
+    LibMovie::mk_error( "Could not get Path for movie ID: " . $$main::p{ 'id' } );
+    return;
+  }
+
+  if( defined( $subtitle ) )
+  {
+    LibMovie::mk_debug( $main::DEBUG, "Executing command: system( /srv/www/bin/movie/start_vlc.sh $path $language $subtitle )" );
+    $retval = LibMovie::execute_command( "/srv/www/bin/movie/start_vlc.sh", $path, $language, $subtitle );
+  }
+  else
+  {
+    LibMovie::mk_debug( $main::DEBUG, "Executing command: system( /srv/www/bin/movie/start_vlc.sh $path $language )" );
+    $retval = LibMovie::execute_command( "/srv/www/bin/movie/start_vlc.sh", $path, $language );
+  }
+
+
+  if( "$retval" ne "0" )
+  {
+    LibMovie::mk_error( "Could not start VLC-Player. Return value: $retval" );
+    return;
+  }
+
+  return 1;
+}
+
+
+# ==============
+# Selects MOV_PATH for the given MOV_ID from the database and returns it
+#
+# @param movie_id MOV_ID of the movie the path is requestd
+#
+# @return MOV_PATH for the given MOV_ID, or undefined if none is found
+#
+sub get_movie_path
+{
+  my $movie_id = shift;
+  my $sql = "select MOV_PATH from TBL_MOVIE where MOV_ID = ?;";
+  my $sqlh;
+  my @row;
+
+  my $path;
+
+  unless( $sqlh = LibMovie::execute_sql( $main::dbh, $sql, $movie_id ) )
+  {
+    return;
+  }
+
+  if( @row = $sqlh -> fetchrow_array( ) )
+  {
+    $path = $row[ 0 ];
+  }
+  else
+  {
+    return;
+  }
+
+  $sqlh -> finish( );
+
+  return $path;
 }
 
 

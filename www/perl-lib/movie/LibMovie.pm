@@ -169,4 +169,18 @@ sub db_close
 }
 
 
+# ==============
+# Executes an shell command and returns the exist status
+#
+# @param command
+# @param optional parameters
+#
+# @return exit status of the command
+#
+sub execute_command
+{
+  return system( join( " ", @_ ) );
+}
+
+
 1;

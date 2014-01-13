@@ -28,6 +28,11 @@ rm -r /srv/www/perl-lib/movie
 cp -r ../www/perl-lib/movie /srv/www/perl-lib/
 cp ../www/perl-lib/Apache/Movie.pm /srv/www/perl-lib/Apache/
 
+echo "replacing special Movie bin ..."
+rm -r /srv/www/bin/movie
+mkdir -p /srv/www/bin
+cp -pr ../www/bin/movie /srv/www/bin/
+
 echo "replacing httpd.conf ..."
 cp ../config_files/httpd.conf /etc/apache2/
 

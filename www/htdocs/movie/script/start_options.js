@@ -5,10 +5,72 @@ $( document ).ready( function( ) {
 } );
 
 
+/**
+ * Sets the handler for the start options
+ */
 function set_start_option_handler( )
 {
-  console.log( "set_start_option_handler" );
+  var start_button = document.getElementById( "start-option-start" );
+
+  start_button.onclick = function( ) {
+    start_vlc( );
+  }
 }
+
+
+/**
+ * This function starts the VLC-Player
+ */
+function start_vlc( )
+{
+  var params = { };
+  params[ 'method' ]    = 'start_vlc';
+  params[ 'id' ]        = get_selected_movie_id( );
+  params[ 'language' ]  = get_selected_movie_language( );
+  params[ 'subtitle' ]  = get_selected_movie_subtitle( );
+
+
+  $.post( PATH, params, function( data ) {
+
+    console.log( "VLC-Player started" );
+  } ).fail( function( ) {
+
+    console.log( "Error getting table data" );
+  });
+}
+
+
+/**
+ * Returns the selected languages value
+ *
+ * @return short version of the selected audio language
+ */
+function get_selected_movie_language( )
+{
+  var select = document.getElementById( "start-option-language-select" );
+  return select.options[ select.selectedIndex ].value;
+}
+
+
+/**
+ * Returns the selected subtitle language value
+ *
+ * @return short version of the selected subtitle language
+ */
+function get_selected_movie_subtitle( )
+{
+  var select = document.getElementById( "start-option-subtitle-select" );
+  var language = select.options[ select.selectedIndex ].value;
+
+  /* If the value is not defined or k there is no subtitle language selected, so no subtitles should be shown */
+  /* the check for defined is just if the value is removed some time */
+  if( ( ! language ) || ( language === "k" ) ) {
+    return;
+  }
+
+  return language;
+}
+
 
 
 /**
